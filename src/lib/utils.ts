@@ -31,4 +31,11 @@ const isEmail = (str: string): boolean => {
   return emailPattern.test(str);
 };
 
-export { isUrl, isEmail };
+const getOrdinalSuffix = (num: number): string => {
+  const suffixes = ['th', 'st', 'nd', 'rd'];
+  const lastDigit = num % 10;
+  const suffix = suffixes[lastDigit] || 'th';
+  return num + suffix;
+};
+
+export { isUrl, isEmail, getOrdinalSuffix };
