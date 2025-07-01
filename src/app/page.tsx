@@ -1,100 +1,138 @@
-import Image from "next/image";
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { SignOutButton } from '@clerk/nextjs';
+import { ArrowRightIcon, UsersIcon } from 'lucide-react';
+
+import { Navbar } from '@/components/navbar';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const workspaces = [];
+  const processedInvitations = [];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  async function goToGetStartedPage() {
+    'use server';
+    redirect('/get-started');
+  }
+
+  return (
+    <div className="font-lato min-h-screen bg-[#F8F8F8]">
+      {/* Header */}
+      <div className="border-b border-gray-200">
+        <Navbar action={goToGetStartedPage} />
+      </div>
+
+      {/* Main Content */}
+      <main className="max-w-6xl mx-auto px-6 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <h1 className="text-5xl font-bold text-gray-900">Welcome back</h1>
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="https://em-content.zobj.net/source/microsoft-teams/337/waving-hand_1f44b.png "
+              width={52}
+              height={56}
+              alt="waving-hand"
+              unoptimized
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Pick up where you left off, or start something new with your team
+          </p>
+        </div>
+
+        {/* Workspaces Grid */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-8">Your workspaces</h2>
+
+          {workspaces.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Workspace cards would go here */}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <UsersIcon className="w-8 h-8 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No workspaces yet</h3>
+              <p className="text-gray-600 mb-6">
+                You haven't joined any workspaces. Create one to get started!
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Create Workspace Card */}
+        <div className="rounded-[9px] mb-12 border-[#fff3] border-4">
+          <div className="flex flex-col sm:grid items-center bg-[#fff] p-4 grid-rows-[1fr] grid-cols-[200px_1fr_auto] rounded-[5px]">
+            <Image
+              src="https://a.slack-edge.com/613463e/marketing/img/homepage/bold-existing-users/create-new-workspace-module/woman-with-laptop-color-background.png"
+              width={200}
+              height={121}
+              className="rounded-[5px] m-[-1rem_-1rem_-47px]"
+              alt="woman-with-laptop"
+            />
+            <p className="mt-[50px] text-center sm:text-start mb-3 sm:my-0 pr-4 tracking-[.02em] text-[17.8px] text-black">
+              <strong>
+                {workspaces.length > 0
+                  ? 'Want to use Slack with a different team?'
+                  : 'Want to get started with Slack?'}
+              </strong>
+            </p>
+            <form action={goToGetStartedPage}>
+              <Button type="submit" variant="secondary">
+                Create a new workspace
+              </Button>
+            </form>
+          </div>
+        </div>
+
+        {/* Invitations Section */}
+        {processedInvitations.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8">Pending invitations</h2>
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+              <p className="text-blue-800">You have pending workspace invitations.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom CTA */}
+        <div className="text-center">
+          <div className="bg-gray-50 rounded-2xl p-8 max-w-2xl mx-auto">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Not seeing your workspace?</h3>
+            <p className="text-gray-600 mb-6">
+              You might have signed up with a different email address, or your workspace might be
+              using a different sign-in method.
+            </p>
+            <SignOutButton redirectUrl="/sign-in">
+              <Button
+                variant="secondary"
+                className="border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl flex items-center justify-center mx-auto"
+              >
+                Try a different email
+                <ArrowRightIcon className="size-4 ml-2" />
+              </Button>
+            </SignOutButton>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 bg-amber-50 py-12 mt-16 ">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Image
+              src="/apple-touch-icon.png"
+              width={26}
+              height={26}
+              alt="apple-touch-icon"
+              className="size-[26px]"
+            />
+            <span className="font-semibold text-gray-900">Slack</span>
+          </div>
+          <p className="text-gray-600">Where work happens</p>
+        </div>
       </footer>
     </div>
   );

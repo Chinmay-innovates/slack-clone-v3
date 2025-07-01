@@ -1,4 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'em-content.zobj.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'a.slack-edge.com',
+      },
+    ],
+  },
+};
 
 export default nextConfig;
