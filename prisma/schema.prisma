@@ -20,6 +20,17 @@ enum Role {
   owner
 }
 
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String?
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Workspace {
   id          String       @id @default(cuid())
   name        String
