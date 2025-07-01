@@ -5,10 +5,127 @@ import { ArrowRightIcon, UsersIcon } from 'lucide-react';
 
 import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
+import { currentUser } from '@clerk/nextjs/server';
+import prisma from '@/lib/prisma';
+import { WorkspaceList } from '@/components/workspace-list';
 
-export default function Home() {
-  const workspaces = [];
-  const processedInvitations = [];
+export default async function Home() {
+  const user = await currentUser();
+  const userEmail = user?.primaryEmailAddress?.emailAddress;
+
+  const memberships = await prisma.membership.findMany({
+    where: {
+      userId: user!.id,
+    },
+    include: {
+      workspace: {
+        include: {
+          _count: {
+            select: { memberships: true },
+          },
+          memberships: {
+            take: 5,
+          },
+          channels: {
+            take: 1,
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const workspaces = memberships.map((membership) => {
+    const { workspace } = membership;
+    return {
+      id: workspace.id,
+      name: workspace.name,
+      image: workspace.image,
+      memberCount: workspace._count.memberships,
+      firstChannelId: workspace.channels[0].id,
+    };
+  });
+
+  const invitations = await prisma.invitation.findMany({
+    where: {
+      email: userEmail,
+      acceptedAt: null,
+    },
+    include: {
+      workspace: {
+        include: {
+          _count: {
+            select: { memberships: true },
+          },
+          memberships: {
+            take: 5,
+          },
+        },
+      },
+    },
+  });
+
+  const processedInvitations = invitations.map((invitation) => {
+    const { workspace } = invitation;
+    return {
+      id: workspace.id,
+      name: workspace.name,
+      image: workspace.image,
+      memberCount: workspace._count.memberships,
+      token: invitation.token,
+    };
+  });
+
+  async function acceptInvitation(formData: FormData) {
+    'use server';
+    const token = String(formData.get('token'));
+    const invitation = await prisma.invitation.findUnique({
+      where: { token },
+    });
+
+    await prisma.membership.create({
+      data: {
+        userId: user!.id,
+        email: userEmail!,
+        workspace: {
+          connect: { id: invitation!.workspaceId },
+        },
+        role: 'user',
+      },
+    });
+
+    await prisma.invitation.update({
+      where: { token },
+      data: {
+        acceptedAt: new Date(),
+        acceptedById: user!.id,
+      },
+    });
+
+    const workspace = await prisma.workspace.findUnique({
+      where: { id: invitation!.workspaceId },
+      select: {
+        id: true,
+        channels: {
+          take: 1,
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    redirect(`/client/${workspace!.id}/${workspace!.channels[0].id}`);
+  }
+
+  async function launchChat(formData: FormData) {
+    'use server';
+    const workspaceId = formData.get('workspaceId');
+    const channelId = formData.get('channelId');
+    redirect(`/client/${workspaceId}/${channelId}`);
+  }
 
   async function goToGetStartedPage() {
     'use server';
@@ -46,9 +163,12 @@ export default function Home() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-8">Your workspaces</h2>
 
           {workspaces.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Workspace cards would go here */}
-            </div>
+            <WorkspaceList
+              title={`Workspaces for ${userEmail}`}
+              workspaces={workspaces}
+              action={launchChat}
+              actionText="Launch Slack"
+            />
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -94,6 +214,13 @@ export default function Home() {
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
               <p className="text-blue-800">You have pending workspace invitations.</p>
             </div>
+            <WorkspaceList
+              title={`Invitations for ${userEmail}`}
+              workspaces={processedInvitations}
+              action={acceptInvitation}
+              actionText="Accept invite"
+              buttonVariant="secondary"
+            />
           </div>
         )}
 
