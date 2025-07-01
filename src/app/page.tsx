@@ -176,7 +176,7 @@ export default async function Home() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No workspaces yet</h3>
               <p className="text-gray-600 mb-6">
-                You haven't joined any workspaces. Create one to get started!
+                You haven&apose;t joined any workspaces. Create one to get started!
               </p>
             </div>
           )}

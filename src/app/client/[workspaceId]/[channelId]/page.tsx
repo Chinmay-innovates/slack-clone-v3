@@ -92,6 +92,9 @@ const Channel = ({ params }: ChannelProps) => {
       const currentMembers = workspace.memberships.map((m: Membership) => m.userId);
       const chatChannel = chatClient.channel('messaging', channelId, {
         members: currentMembers,
+        name: channel.name,
+        description: channel.description,
+        workspaceId: channel.workspaceId,
       });
 
       if (currentCall?.id === channelId) {
