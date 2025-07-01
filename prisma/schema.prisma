@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  member
+  admin
+  owner
+}
+
+model Workspace {
+  id          String       @id @default(cuid())
+  name        String
+  image       String?
+  ownerId     String
+  channels    Channel[]
+  memberships Membership[]
+  invitations Invitation[]
+}
+
+model Channel {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  workspaceId String    @map("workspace_id")
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model Membership {
+  id          String    @id @default(cuid())
+  userId      String    @map("user_id")
+  email       String
+  workspaceId String    @map("workspace_id")
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  role        Role      @default(member)
+  joinedAt    DateTime? @default(now()) @map("joined_at")
+
+  @@unique([userId, workspaceId])
+  @@index([email])
+}
+
+model Invitation {
+  id           Int       @id @default(autoincrement())
+  email        String
+  token        String    @unique
+  workspaceId  String    @map("workspace_id")
+  workspace    Workspace @relation(fields: [workspaceId], references: [id])
+  invitedById  String    @map("invited_by_id")
+  acceptedById String?   @map("accepted_by_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  acceptedAt   DateTime? @map("accepted_at")
+
+  @@index([email])
+  @@index([workspaceId])
+}
