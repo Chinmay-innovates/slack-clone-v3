@@ -28,3 +28,9 @@
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .client ::selection {
+    background: #7d7e81;
+  }
+}
