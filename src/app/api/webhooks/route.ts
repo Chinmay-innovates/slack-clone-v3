@@ -2,6 +2,7 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { StreamClient } from '@stream-io/node-sdk';
+import prisma from '@/lib/prisma';
 
 const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
 const SECRET = process.env.STREAM_API_SECRET!;
@@ -31,6 +32,8 @@ export async function POST(req: Request) {
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
+  console.log('Received webhook with svix-id:', svix_id);
+  console.log('Event payload:', JSON.stringify(payload, null, 2));
   // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
@@ -56,6 +59,15 @@ export async function POST(req: Request) {
     case 'user.created':
     case 'user.updated':
       const newUser = evt.data;
+      await prisma.user.create({
+        data: {
+          clerkId: newUser.id,
+          email: newUser.email_addresses[0].email_address,
+          imageUrl: newUser.image_url,
+          firstName: newUser.first_name,
+          lastName: newUser.last_name,
+        },
+      });
       await client.upsertUsers([
         {
           id: newUser.id,
@@ -68,6 +80,7 @@ export async function POST(req: Request) {
           image: newUser.image_url,
         },
       ]);
+      console.log('User ID:', newUser.id);
       break;
     default:
       break;

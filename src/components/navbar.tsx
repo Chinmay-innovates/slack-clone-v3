@@ -1,14 +1,25 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { ChevronDownIcon, SearchIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type NavbarProps = {
   action: () => void;
 };
 
 export const Navbar = ({ action }: NavbarProps) => {
+  const router = useRouter();
+  const [search, setSearch] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!search.trim()) return;
+    router.push(`/search?q=${encodeURIComponent(search)}`);
+  };
   return (
     <header>
       <nav className="bg-slack h-20">
@@ -34,9 +45,18 @@ export const Navbar = ({ action }: NavbarProps) => {
               <NavLink dropdown>Resources</NavLink>
               <NavLink>Pricing</NavLink>
             </ul>
-            <button className="hidden lg:flex mt-1 mr-6">
-              <SearchIcon className="size-5 text-white" />
-            </button>
+            <form onSubmit={handleSearch} className="hidden lg:flex items-center mr-4">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="bg-transparent border-b border-white text-white placeholder-white text-sm px-2 py-1 outline-none"
+                placeholder="Search..."
+              />
+              <button type="submit">
+                <SearchIcon className="size-5 text-white ml-2" />
+              </button>
+            </form>
             <form action={action}>
               <Button
                 type="submit"
