@@ -34,6 +34,7 @@ export async function POST(req: Request) {
 
   console.log('Received webhook with svix-id:', svix_id);
   console.log('Event payload:', JSON.stringify(payload, null, 2));
+
   // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
@@ -59,15 +60,25 @@ export async function POST(req: Request) {
     case 'user.created':
     case 'user.updated':
       const newUser = evt.data;
-      await prisma.user.create({
-        data: {
+      // Prisma client
+      await prisma.user.upsert({
+        where: { clerkId: newUser.id },
+        update: {
+          email: newUser.email_addresses?.[0]?.email_address,
+          imageUrl: newUser.image_url,
+          firstName: newUser.first_name,
+          lastName: newUser.last_name,
+        },
+        create: {
           clerkId: newUser.id,
-          email: newUser.email_addresses[0].email_address,
+          email: newUser.email_addresses?.[0]?.email_address,
           imageUrl: newUser.image_url,
           firstName: newUser.first_name,
           lastName: newUser.last_name,
         },
       });
+
+      // Stream client
       await client.upsertUsers([
         {
           id: newUser.id,
@@ -80,7 +91,9 @@ export async function POST(req: Request) {
           image: newUser.image_url,
         },
       ]);
+
       console.log('User ID:', newUser.id);
+
       break;
     default:
       break;
