@@ -68,13 +68,15 @@ export async function POST(req: Request) {
           imageUrl: newUser.image_url,
           firstName: newUser.first_name,
           lastName: newUser.last_name,
+          username: newUser.username!,
         },
         create: {
           clerkId: newUser.id,
           email: newUser.email_addresses?.[0]?.email_address,
           imageUrl: newUser.image_url,
-          firstName: newUser.first_name,
-          lastName: newUser.last_name,
+          firstName: newUser.first_name || 'anonymous',
+          lastName: newUser.last_name || 'user',
+          username: newUser.username!,
         },
       });
 

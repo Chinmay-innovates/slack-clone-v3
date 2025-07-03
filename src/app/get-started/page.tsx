@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { isUrl } from '@/lib/utils';
+import { isUrl, pattern } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import { ArrowDropdown, Hash, Home, MoreHoriz } from '@/components/icons';
@@ -12,7 +12,7 @@ import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
 import { AlertCircle, Check } from 'lucide-react';
 
-const pattern = `(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))`;
+
 
 type FieldErrors = {
   workspaceName?: string;

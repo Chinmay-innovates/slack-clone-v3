@@ -23,6 +23,7 @@ import { StreamCall, useCalls } from '@stream-io/video-react-sdk';
 import ChannelLoading from '@/components/channel-loading';
 import { ChannelChat } from '@/components/channel-chat';
 import { HuddleToggleButton } from '@/components/huddle-toggle-button';
+import { EditChannelModal } from '@/components/edit-channel-modal';
 
 interface ChannelProps {
   params: {
@@ -52,6 +53,7 @@ const Channel = ({ params }: ChannelProps) => {
   const [chatChannel, setChatChannel] = useState<ChannelType<DefaultStreamChatGenerics>>();
   const [channelLoading, setChannelLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
   const layoutRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -154,12 +156,22 @@ const Channel = ({ params }: ChannelProps) => {
       {/* Toolbar */}
       <div className="pl-4 pr-3 h-[49px] flex items-center flex-shrink-0 justify-between">
         <div className="flex flex-[1_1_0] items-center min-w-0">
-          <button className="min-w-[96px] px-2 py-[3px] -ml-1 mr-2 flex flex-[0_auto] items-center text-[17.8px] rounded-md text-channel-gray hover:bg-[#d1d2d30b] leading-[1.33334]">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="min-w-[96px] px-2 py-[3px] -ml-1 mr-2 flex flex-[0_auto] items-center text-[17.8px] rounded-md text-channel-gray hover:bg-[#d1d2d30b] leading-[1.33334]"
+          >
             <span className="mr-1 align-text-bottom">
               <Hash color="var(--channel-gray)" size={18} />
             </span>
             <span className="truncate font-[900]">{channel?.name}</span>
           </button>
+          {isEditing && (
+            <EditChannelModal
+              open={isEditing}
+              onClose={() => setIsEditing(false)}
+              channel={channel}
+            />
+          )}
           <div
             className={clsx(
               'w-[96px] flex-[1_1_0] min-w-[96px] mr-2 pt-1 text-[12.8px] text-[#E8E8E8B3]',
