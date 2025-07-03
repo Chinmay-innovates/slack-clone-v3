@@ -24,7 +24,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <span className="text-sm font-medium text-slate-700">Search Results</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-2">
-            Found workspaces for "{query}"
+            Found workspaces for &quot;{query}&quot;
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
             Discover and join workspaces that match your interests

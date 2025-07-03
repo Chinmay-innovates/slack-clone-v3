@@ -12,8 +12,6 @@ import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
 import { AlertCircle, Check } from 'lucide-react';
 
-
-
 type FieldErrors = {
   workspaceName?: string;
   channelName?: string;
@@ -203,7 +201,7 @@ const GetStarted = () => {
                   Create your workspace
                 </h1>
                 <p className="text-[#9CA3AF] text-lg leading-relaxed max-w-[600px]">
-                  Set up your team's digital workspace. Add members and start collaborating in
+                  Set up your team&apos;s digital workspace. Add members and start collaborating in
                   minutes.
                 </p>
               </div>
@@ -334,8 +332,8 @@ const GetStarted = () => {
                       placeholder="Enter email addresses and press Enter"
                     />
                     <p className="text-sm text-[#6B7280]">
-                      Add your team members' email addresses. They'll receive an invitation to join
-                      your workspace.
+                      Add your team members&apos; email addresses. They&apos;ll receive an
+                      invitation to join your workspace.
                     </p>
                   </div>
                 </div>

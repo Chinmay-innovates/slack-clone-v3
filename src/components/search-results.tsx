@@ -18,8 +18,8 @@ function EmptyState({ query }: { query: string }) {
 
       <h3 className="text-2xl font-bold text-slate-900 mb-3">No workspaces found</h3>
       <p className="text-slate-900 max-w-md mx-auto mb-8 leading-relaxed">
-        We couldn't find any workspaces matching "{query}". Try different keywords or create your
-        own workspace to get started.
+        We couldn&apos;t find any workspaces matching &quot;{query}&quot;. Try different keywords or
+        create your own workspace to get started.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

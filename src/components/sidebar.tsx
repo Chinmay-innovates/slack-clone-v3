@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { ChannelList, useChatContext } from 'stream-chat-react';
+import { ChannelList } from 'stream-chat-react';
 import clsx from 'clsx';
 
 import { AppContext } from '../app/client/layout';
@@ -13,8 +13,6 @@ import { IconButton } from './icon-button';
 import { ChannelPreview } from './channel-preview';
 import { AddChannelModal } from './add-channel-modal';
 import { EditWorkspaceModal } from './edit-workspace-modal';
-// import { StreamChannel } from '@stream-io/node-sdk';
-import type { Channel as StreamChatChannel, DefaultGenerics } from 'stream-chat';
 
 const [minWidth, defaultWidth] = [215, 275];
 

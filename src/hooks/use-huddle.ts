@@ -49,7 +49,7 @@ export const useHuddle = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [huddleRef.current]);
+  }, []);
 
   const leaveCall = useCallback(async () => {
     const canEndCall = call?.permissionsContext.hasPermission(OwnCapability.END_CALL);
