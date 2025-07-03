@@ -1,4 +1,4 @@
-import { Loader2Icon, Hash } from 'lucide-react';
+import { Loader2Icon } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 interface ActionButtonsProps {
@@ -35,7 +35,7 @@ export const ActionButtons: FC<ActionButtonsProps> = ({
         type="submit"
         disabled={loading || disabled}
         className="flex-1 h-10 px-4 text-sm font-medium text-white bg-[#00553d] border-[#00553d]
-        hover:shadow-[0_1px_4px_#0000004d] hover:bg-blend-lighten hover:bg-[linear-gradient(#d8f5e 914,#d8f5e914)] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+        hover:shadow-[0_1px_4px_#0000004d] hover:bg-blend-lighten hover:bg-[linear-gradient(#d8f5e914,#d8f5e914)] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
       >
         {loading ? (
           <>

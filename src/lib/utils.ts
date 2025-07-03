@@ -6,7 +6,7 @@ export function generateToken() {
 }
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-const pattern = `(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))`;
+const pattern = `https?:\/\/[^"']*\.(?:png|jpg|jpeg|gif|svg)`;
 
 export function generateWorkspaceId() {
   const nanoid = customAlphabet(alphabet, 7);

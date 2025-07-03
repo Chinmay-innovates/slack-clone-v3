@@ -1,5 +1,4 @@
 import { FormEvent, useContext, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Hash, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 import { AppContext } from '../app/client/layout';
@@ -15,8 +14,7 @@ interface EditChannelModalProps {
 }
 
 export const EditChannelModal = ({ open, onClose, channel }: EditChannelModalProps) => {
-  const router = useRouter();
-  const { workspace, setWorkspace } = useContext(AppContext);
+  const { workspace, setWorkspace, setChannel, setWorkspaceVersion } = useContext(AppContext);
 
   const [channelName, setChannelName] = useState(channel.name);
   const [channelDescription, setChannelDescription] = useState(channel.description || '');
@@ -77,13 +75,27 @@ export const EditChannelModal = ({ open, onClose, channel }: EditChannelModalPro
       const result = await response.json();
 
       if (response.ok) {
-        const updated = result.channel;
+        const updated = {
+          ...channel,
+          name: channelName.trim(),
+          description: channelDescription.trim(),
+        };
         setWorkspace({
           ...workspace,
-          channels: workspace.channels.map((c) => (c.id === updated.id ? updated : c)),
+          channels: workspace.channels.map((c) =>
+            c.id === updated.id
+              ? {
+                  ...updated,
+                }
+              : c,
+          ),
         });
+
+        if (channel.id === updated.id) {
+          setChannel(updated);
+        }
+        setWorkspaceVersion((prev) => prev + 1);
         closeModal();
-        router.refresh();
       } else {
         setErrors([`Error: ${result.error}`]);
       }

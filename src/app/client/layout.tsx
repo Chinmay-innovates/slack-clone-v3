@@ -40,6 +40,8 @@ export type Workspace = PrismaWorkspace & {
 export const AppContext = createContext<{
   workspace: Workspace;
   setWorkspace: (workspace: Workspace) => void;
+  workspaceVersion: number;
+  setWorkspaceVersion: React.Dispatch<React.SetStateAction<number>>;
   otherWorkspaces: Workspace[];
   setOtherWorkspaces: (workspaces: Workspace[]) => void;
   channel: Channel;
@@ -55,6 +57,8 @@ export const AppContext = createContext<{
 }>({
   workspace: {} as Workspace,
   setWorkspace: () => {},
+  workspaceVersion: 0,
+  setWorkspaceVersion: () => {},
   otherWorkspaces: [],
   setOtherWorkspaces: () => {},
   channel: {} as Channel,
@@ -92,6 +96,7 @@ const Layout = ({ children }: LayoutProps) => {
   const [chatClient, setChatClient] = useState<StreamChat>();
   const [videoClient, setVideoClient] = useState<StreamVideoClient>();
   const [channelCall, setChannelCall] = useState<Call>();
+  const [workspaceVersion, setWorkspaceVersion] = useState(0);
 
   useEffect(() => {
     const customProvider = async () => {
@@ -139,6 +144,8 @@ const Layout = ({ children }: LayoutProps) => {
       value={{
         workspace: workspace!,
         setWorkspace,
+        workspaceVersion,
+        setWorkspaceVersion,
         otherWorkspaces,
         setOtherWorkspaces,
         channel: channel!,

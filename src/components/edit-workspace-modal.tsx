@@ -26,7 +26,7 @@ export const EditWorkspaceModal = ({ open, onClose }: EditWorkspaceModalProps) =
       setWorkspaceName(workspace.name || '');
       setImageUrl(workspace.image || '');
 
-      const emailInvites = workspace.invitations.map((inv) => inv.email) || [];
+      const emailInvites = workspace.invitations?.map((inv) => inv.email) || [];
       setInvites(emailInvites);
       setErrors([]);
     }
@@ -34,7 +34,7 @@ export const EditWorkspaceModal = ({ open, onClose }: EditWorkspaceModalProps) =
 
   const addInvite = () => {
     const email = newInvite.trim();
-    if (email && !invites.includes(email)) {
+    if (email && email && isEmail(email) && !invites.includes(email)) {
       setInvites([...invites, email]);
       setNewInvite('');
     }
@@ -91,6 +91,7 @@ export const EditWorkspaceModal = ({ open, onClose }: EditWorkspaceModalProps) =
           ...workspace,
           name: workspaceName.trim(),
           image: imageUrl.trim(),
+          invitations: result.invitations || workspace.invitations,
         });
         onClose();
       } else {
