@@ -12,6 +12,7 @@ import { SidebarButton } from './sibebar-button';
 import { IconButton } from './icon-button';
 import { ChannelPreview } from './channel-preview';
 import { AddChannelModal } from './add-channel-modal';
+import { EditWorkspaceModal } from './edit-workspace-modal';
 
 const [minWidth, defaultWidth] = [215, 275];
 
@@ -32,6 +33,7 @@ export const Sidebar = ({ layoutWidth }: SidebarProps) => {
   const maxWidth = useMemo(() => layoutWidth - 374, [layoutWidth]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const isDragged = useRef(false);
 
@@ -113,14 +115,20 @@ export const Sidebar = ({ layoutWidth }: SidebarProps) => {
         <>
           <div className="pl-1 w-full h-[49px] flex items-center justify-between">
             <div className="max-w-[calc(100%-80px)]">
-              <button className="w-fit max-w-full rounded-md py-[3px] px-2 flex items-center text-white hover:bg-hover-gray">
+              <button
+                onClick={() => setEditing(true)}
+                className="w-fit max-w-full rounded-md py-[3px] px-2 flex items-center text-white hover:bg-hover-gray"
+              >
                 <span className="truncate text-[18px] font-[900] leading-[1.33334]">
                   {workspace.name}
                 </span>
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 ml-1">
                   <CaretDown size={18} color="var(--primary)" />
                 </div>
               </button>
+              {isWorkspaceOwner && (
+                <EditWorkspaceModal open={editing} onClose={() => setEditing(false)} />
+              )}
             </div>
             <div className="flex">
               <IconButton

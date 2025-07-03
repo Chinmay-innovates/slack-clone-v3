@@ -1,13 +1,19 @@
 import { createPortal } from 'react-dom';
 import { Channel as ChannelType } from 'stream-chat';
-import { Channel, MessageInput, MessageList, Window } from 'stream-chat-react';
+import {
+  Channel,
+  DefaultStreamChatGenerics,
+  MessageInput,
+  MessageList,
+  Window,
+} from 'stream-chat-react';
 import { DateSeparator } from './date-separator';
 import ChannelLoading from './channel-loading';
 import { ChannelMessage } from './channel-message';
 import { InputContainer } from './input-container';
 
 interface ChannelChatProps {
-  channel: ChannelType;
+  channel: ChannelType<DefaultStreamChatGenerics>;
 }
 
 export const ChannelChat = ({ channel }: ChannelChatProps) => {

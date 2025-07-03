@@ -23,6 +23,7 @@ enum Role {
 model User {
   id        String   @id @default(cuid())
   clerkId   String   @unique
+  username  String   @unique
   email     String?
   firstName String?
   lastName  String?
@@ -46,7 +47,7 @@ model Channel {
   name        String
   description String?
   workspaceId String    @map("workspace_id")
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }
 
 model Membership {
@@ -54,7 +55,7 @@ model Membership {
   userId      String    @map("user_id")
   email       String
   workspaceId String    @map("workspace_id")
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   role        Role      @default(member)
   joinedAt    DateTime? @default(now()) @map("joined_at")
 
@@ -67,7 +68,7 @@ model Invitation {
   email        String
   token        String    @unique
   workspaceId  String    @map("workspace_id")
-  workspace    Workspace @relation(fields: [workspaceId], references: [id])
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   invitedById  String    @map("invited_by_id")
   acceptedById String?   @map("accepted_by_id")
   createdAt    DateTime  @default(now()) @map("created_at")
