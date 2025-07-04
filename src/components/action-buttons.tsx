@@ -77,7 +77,7 @@ export const MessageActionButtons: FC<MessageActionButtonsProps> = ({
         />
         <button
           onClick={() => openThread(message)}
-          className="group/butted flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b] rounded-md"
+          className="group/button flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b] rounded-md"
         >
           <Threads className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
         </button>

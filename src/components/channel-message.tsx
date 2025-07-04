@@ -10,7 +10,7 @@ import {
 import clsx from 'clsx';
 import emojiData from '@emoji-mart/data';
 
-import { Bookmark, AddReaction, Download, MoreVert, Share, Threads } from '@/components/icons';
+import { AddReaction, Download, MoreVert, Share, Threads } from '@/components/icons';
 import { Avatar } from './ui/avatar';
 import EmojiPicker from './emoji-picker';
 import { MessageActionButtons } from './action-buttons';
