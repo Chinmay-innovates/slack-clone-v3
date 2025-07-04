@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import { CallingState, StreamTheme } from '@stream-io/video-react-sdk';
 
-import { AppContext } from '../app/client/layout';
-import Hash from './icons/Hash';
+import { AppContext } from '@/app/client/layout';
+
+import { Avatar } from '@/components/ui/avatar';
+import { HuddleUI } from '@/components/ui/huddle-ui';
+import { Hash } from '@/components/icons';
+
 import { useHuddle } from '@/hooks/use-huddle';
-import { Avatar } from './ui/avatar';
-import { HuddleUI } from './huddle-ui';
 
 interface HuddleProps {
   isModalOpen: boolean;
@@ -54,7 +56,6 @@ export const Huddle = ({ isModalOpen, setIsModalOpen }: HuddleProps) => {
                   <b>{customData.createdBy}</b> is inviting you to a huddle in
                   <span className="w-[15px] h-[15px] inline-block pt-0.5 mx-1">
                     <Hash size={15} color="var(--primary)" />
-                    {'  '}
                   </span>
                   <b>{customData.channelName}</b>
                 </p>

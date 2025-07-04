@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+import { isEqual } from 'lodash';
 import { useCallback, useContext } from 'react';
 import {
   Call,
@@ -7,12 +9,9 @@ import {
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
 import { useUser } from '@clerk/nextjs';
-import clsx from 'clsx';
 
-import { AppContext } from '../app/client/layout';
-import CaretDown from './icons/CaretDown';
-import Headphones from './icons/Headphones';
-import { isEqual } from 'lodash';
+import { AppContext } from '@/app/client/layout';
+import { CaretDown, Headphones } from '@/components/icons';
 
 interface HuddleToggleButton {
   currentCall: Call | undefined;

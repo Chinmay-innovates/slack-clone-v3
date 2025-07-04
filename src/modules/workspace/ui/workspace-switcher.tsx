@@ -3,10 +3,11 @@ import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
 import { AppContext, Workspace } from '@/app/client/layout';
-import { Avatar } from './ui/avatar';
-import { Plus } from './icons';
 
 import { useClickOutside } from '@/hooks/handle-click-outside';
+
+import { Avatar } from '@/components/ui/avatar';
+import { Plus } from '@/components/icons';
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();

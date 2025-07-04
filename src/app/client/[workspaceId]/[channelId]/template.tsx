@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom';
 import { StreamCall, useCalls } from '@stream-io/video-react-sdk';
 
 import { AppContext } from '../../layout';
-import { Huddle } from '@/components/huddle';
-import { HuddleModal } from '@/components/huddle-modal';
+import { Huddle } from '@/modules/huddle/ui/huddle';
+import { HuddleModal } from '@/modules/huddle/ui/huddle-modal';
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const [currentCall] = useCalls();

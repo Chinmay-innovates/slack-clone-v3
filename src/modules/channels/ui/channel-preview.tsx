@@ -2,9 +2,11 @@ import { useContext } from 'react';
 import { ChannelPreviewUIComponentProps } from 'stream-chat-react';
 import { usePathname, useRouter } from 'next/navigation';
 
-import Hash from './icons/Hash';
-import { AppContext } from '../app/client/layout';
-import { SidebarButton } from './sibebar-button';
+import { AppContext } from '@/app/client/layout';
+
+import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
+
+import { Hash } from '@/components/icons';
 
 export const ChannelPreview = ({
   channel,

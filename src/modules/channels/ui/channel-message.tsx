@@ -10,10 +10,10 @@ import {
 import clsx from 'clsx';
 import emojiData from '@emoji-mart/data';
 
+import { Avatar } from '@/components/ui/avatar';
+import EmojiPicker from '@/components/emoji-picker';
+import { MessageActionButtons } from '@/components/action-buttons';
 import { AddReaction, Download, MoreVert, Share, Threads } from '@/components/icons';
-import { Avatar } from './ui/avatar';
-import EmojiPicker from './emoji-picker';
-import { MessageActionButtons } from './action-buttons';
 
 export const ChannelMessage = () => {
   const { message } = useMessageContext();

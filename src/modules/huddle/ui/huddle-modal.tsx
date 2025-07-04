@@ -1,4 +1,4 @@
-import { HuddleUI } from './huddle-ui';
+import { HuddleUI } from '@/components/ui/huddle-ui';
 
 interface HuddleModalProps {
   isModalOpen: boolean;

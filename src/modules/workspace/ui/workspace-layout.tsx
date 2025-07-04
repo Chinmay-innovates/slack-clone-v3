@@ -2,8 +2,8 @@
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 
-import { AppContext } from '../app/client/layout';
-import { Sidebar } from './sidebar';
+import { AppContext } from '../../../app/client/layout';
+import { Sidebar } from '@/modules/sidebar/ui/sidebar';
 
 interface WorkspaceLayoutProps {
   children: ReactNode;

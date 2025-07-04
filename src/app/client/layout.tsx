@@ -20,11 +20,11 @@ import {
 } from '@/components/icons';
 
 import { Avatar } from '@/components/ui/avatar';
-import { WorkspaceSwitcher } from '@/components/workspace-switcher';
-import { IconButton } from '@/components/icon-button';
+import { WorkspaceSwitcher } from '@/modules/workspace/ui/workspace-switcher';
+import { IconButton } from '@/components/ui/icon-button';
 import { RailButton } from '@/components/rail-button';
-import { SearchBar } from '@/components/search-bar';
-import { WorkspaceLayout } from '@/components/workspace-layout';
+import { WorkspaceLayout } from '@/modules/workspace/ui/workspace-layout';
+import { SearchBar } from '@/modules/search/ui/search-bar';
 
 interface LayoutProps {
   children?: ReactNode;

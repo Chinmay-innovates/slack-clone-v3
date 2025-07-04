@@ -1,10 +1,13 @@
 import { useState, useEffect, FormEvent, useContext } from 'react';
 import { X, Plus, Users, Image as ImageIcon, Building2, Mail } from 'lucide-react';
-import { Modal } from './modal';
-import { AppContext } from '../app/client/layout';
+
+import { AppContext } from '@/app/client/layout';
+
+import { Modal } from '@/components/ui/modal';
+import { TextField } from '@/components/ui/text-field';
+import { FormActionButtons } from '@/components/action-buttons';
+
 import { isEmail, isUrl, pattern } from '@/lib/utils';
-import { TextField } from './ui/text-field';
-import { ActionButtons } from './action-buttons';
 
 interface EditWorkspaceModalProps {
   open: boolean;
@@ -281,7 +284,7 @@ export const EditWorkspaceModal = ({ open, onClose }: EditWorkspaceModalProps) =
           </div>
 
           {/* Action Buttons */}
-          <ActionButtons
+          <FormActionButtons
             onCancel={closeModal}
             loading={loading}
             disabled={loading}

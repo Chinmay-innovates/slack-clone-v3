@@ -7,11 +7,13 @@ import {
   MessageList,
   Window,
 } from 'stream-chat-react';
-import { DateSeparator } from './date-separator';
-import ChannelLoading from './channel-loading';
-import { ChannelMessage } from './channel-message';
-import { InputContainer } from './input-container';
-import { SidebarThread } from './sidebar-thread';
+
+import { DateSeparator } from '@/components/date-separator';
+import { InputContainer } from '@/components/input-container';
+
+import ChannelLoading from '@/modules/channels/ui/channel-loading';
+import { SidebarThread } from '@/modules/sidebar/ui/sidebar-thread';
+import { ChannelMessage } from '@/modules/channels/ui/channel-message';
 
 interface ChannelChatProps {
   channel: ChannelType<DefaultStreamChatGenerics>;

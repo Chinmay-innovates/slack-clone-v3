@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import { ArrowDropdown, Hash, Home, MoreHoriz } from '@/components/icons';
 import { RailButton } from '@/components/rail-button';
-import { SidebarButton } from '@/components/sibebar-button';
+import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
 import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
 import { AlertCircle, Check } from 'lucide-react';

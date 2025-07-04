@@ -18,12 +18,12 @@ import { useUser } from '@clerk/nextjs';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AppContext } from '../../layout';
 import { StreamCall, useCalls } from '@stream-io/video-react-sdk';
-import ChannelLoading from '@/components/channel-loading';
-import { ChannelChat } from '@/components/channel-chat';
-import { HuddleToggleButton } from '@/components/huddle-toggle-button';
-import { EditChannelModal } from '@/components/edit-channel-modal';
+import { EditChannelModal } from '@/modules/channels/ui/edit-channel-modal';
+import { HuddleToggleButton } from '@/modules/huddle/ui/huddle-toggle-button';
+import ChannelLoading from '@/modules/channels/ui/channel-loading';
+import { ChannelChat } from '@/modules/channels/ui/channel-chat';
+import { AppContext } from '@/app/client/layout';
 
 interface ChannelProps {
   params: {

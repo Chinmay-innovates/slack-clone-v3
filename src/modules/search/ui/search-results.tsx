@@ -1,7 +1,7 @@
+import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { PlusIcon, SearchIcon, TrendingUpIcon } from 'lucide-react';
-import { WorkspaceCard } from './workspace-card';
-import Link from 'next/link';
+import { WorkspaceCard } from '@/modules/workspace/ui/workspace-card';
 
 type Props = {
   query: string;

@@ -13,11 +13,13 @@ import {
   UserAdd,
   Video,
   VideoOff,
-} from './icons';
+} from '@/components/icons';
+
 import { useHuddle } from '@/hooks/use-huddle';
-import { IconButton } from './icon-button';
-import { CallControlButton } from './call-control-button';
-import { ParticipantViewUI } from './participant-view';
+import { IconButton } from '@/components/ui/icon-button';
+
+import { ParticipantViewUI } from '@/components/participant-view';
+import { CallControlButton } from '@/components/call-control-button';
 
 interface HuddleUIProps {
   isModalOpen?: boolean;

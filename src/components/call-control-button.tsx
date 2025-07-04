@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { IconButtonProps } from './icon-button';
+import { IconButtonProps } from './ui/icon-button';
 
 type CallControlButtonProps = Omit<IconButtonProps, 'variant'> & {
   active?: boolean;

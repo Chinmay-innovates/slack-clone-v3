@@ -4,15 +4,15 @@ import { useUser } from '@clerk/nextjs';
 import { ChannelList } from 'stream-chat-react';
 import clsx from 'clsx';
 
-import { AppContext } from '../app/client/layout';
-import { ArrowDropdown, Plus, Refine, Send, Threads } from './icons';
-import CaretDown from './icons/CaretDown';
-import Compose from './icons/Compose';
-import { SidebarButton } from './sibebar-button';
-import { IconButton } from './icon-button';
-import { ChannelPreview } from './channel-preview';
-import { AddChannelModal } from './add-channel-modal';
-import { EditWorkspaceModal } from './edit-workspace-modal';
+import { AppContext } from '@/app/client/layout';
+
+import { ArrowDropdown, CaretDown, Compose, Plus, Refine, Send, Threads } from '@/components/icons';
+
+import { IconButton } from '@/components/ui/icon-button';
+import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
+import { ChannelPreview } from '@/modules/channels/ui/channel-preview';
+import { AddChannelModal } from '@/modules/channels/ui/add-channel-modal';
+import { EditWorkspaceModal } from '@/modules/workspace/ui/edit-workspace-modal';
 
 const [minWidth, defaultWidth] = [215, 275];
 
@@ -22,7 +22,7 @@ type SidebarProps = {
 
 export const Sidebar = ({ layoutWidth }: SidebarProps) => {
   const { user } = useUser();
-  const { loading, workspace, workspaceVersion } = useContext(AppContext);
+  const { loading, workspace } = useContext(AppContext);
 
   const [width, setWidth] = useState<number>(() => {
     const savedWidth =

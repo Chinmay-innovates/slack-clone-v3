@@ -7,7 +7,7 @@ import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { currentUser } from '@clerk/nextjs/server';
 import prisma from '@/lib/prisma';
-import { WorkspaceList } from '@/components/workspace-list';
+import { WorkspaceList } from '@/modules/workspace/ui/workspace-list';
 
 export default async function Home() {
   const user = await currentUser();

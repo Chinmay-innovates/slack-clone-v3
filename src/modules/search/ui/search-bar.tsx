@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Search } from './icons';
+import { Search } from '@/components/icons';
 
 interface SearchBarProps {
   placeholder: string;

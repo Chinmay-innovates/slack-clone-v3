@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 
 import { SearchIcon } from 'lucide-react';
-import { SearchResults, SearchSkeleton } from '@/components/search-results';
+import { SearchResults, SearchSkeleton } from '@/modules/search/ui/search-results';
 
 type SearchPageProps = {
   searchParams: {

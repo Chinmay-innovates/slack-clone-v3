@@ -14,7 +14,7 @@ interface ActionButtonsProps {
   icon?: ReactNode;
 }
 
-export const ActionButtons: FC<ActionButtonsProps> = ({
+export const FormActionButtons: FC<ActionButtonsProps> = ({
   onCancel,
   loading,
   onSubmitLabel = 'Submit',

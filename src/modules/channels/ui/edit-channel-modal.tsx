@@ -1,11 +1,12 @@
 import { FormEvent, useContext, useMemo, useState } from 'react';
 import { Hash, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 
-import { AppContext } from '../app/client/layout';
-import { TextField } from './ui/text-field';
-import { ActionButtons } from './action-buttons';
-import { Modal } from './modal';
 import { Channel } from '@/generated/prisma';
+import { AppContext } from '@/app/client/layout';
+
+import { Modal } from '@/components/ui/modal';
+import { TextField } from '@/components/ui/text-field';
+import { FormActionButtons } from '@/components/action-buttons';
 
 interface EditChannelModalProps {
   open: boolean;
@@ -226,7 +227,7 @@ export const EditChannelModal = ({ open, onClose, channel }: EditChannelModalPro
           )}
 
           {/* Buttons */}
-          <ActionButtons
+          <FormActionButtons
             onCancel={closeModal}
             loading={loading}
             onSubmitLabel="Save"
