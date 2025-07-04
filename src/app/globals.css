@@ -422,3 +422,86 @@
     transform: translateY(0);
   }
 }
+
+.custom-thread-wrapper ::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-thread-wrapper ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 4px;
+}
+.custom-thread-wrapper ::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
+
+.custom-thread-wrapper .str-chat__thread {
+  all: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: contents !important;
+}
+
+.custom-thread-wrapper .str-chat__thread-header {
+  display: none !important;
+}
+
+.custom-thread-wrapper .str-chat__thread-list {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.custom-thread-wrapper .str-chat__message-simple__main {
+  background: none !important;
+  border: none !important;
+}
+
+/* Only thread messages */
+.custom-thread-wrapper .str-chat__message-simple {
+  color: #111827 !important;
+  /* background-color: #f3f4f6 !important; */
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  margin-bottom: 0.5rem !important;
+  max-width: 90% !important;
+  word-wrap: break-word;
+}
+
+.custom-thread-wrapper .str-chat__message-simple__text,
+.custom-thread-wrapper .str-chat__message-simple__content,
+.custom-thread-wrapper .str-chat__message-text-inner {
+  color: #111827 !important;
+  background: none !important;
+}
+
+.custom-thread-wrapper .str-chat__message--me .str-chat__message-simple {
+  background-color: #dbeafe !important;
+  color: #1e3a8a !important;
+}
+
+.custom-thread-wrapper .str-chat__message-simple__text-inner {
+  background: none !important;
+  color: inherit !important;
+}
+
+.custom-thread-wrapper .str-chat__message-simple__actions,
+.custom-thread-wrapper .str-chat__message-simple__timestamp {
+  color: #6b7280 !important;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 128, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+.custom-thread-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.4) transparent;
+}

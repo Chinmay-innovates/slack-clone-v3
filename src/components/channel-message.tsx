@@ -3,20 +3,17 @@ import { useUser } from '@clerk/nextjs';
 import {
   MessageText,
   renderText,
+  useChannelActionContext,
   useChannelStateContext,
   useMessageContext,
 } from 'stream-chat-react';
 import clsx from 'clsx';
 import emojiData from '@emoji-mart/data';
 
-import AddReaction from './icons/AddReaction';
-import Bookmark from './icons/Bookmark';
-import Download from './icons/Download';
-import MoreVert from './icons/MoreVert';
-import Share from './icons/Share';
-import Threads from './icons/Threads';
+import { Bookmark, AddReaction, Download, MoreVert, Share, Threads } from '@/components/icons';
 import { Avatar } from './ui/avatar';
 import EmojiPicker from './emoji-picker';
+import { MessageActionButtons } from './action-buttons';
 
 export const ChannelMessage = () => {
   const { message } = useMessageContext();
@@ -91,6 +88,8 @@ export const ChannelMessage = () => {
     if (emoji) return emoji.skins[0].native;
     return null;
   };
+  const { openThread } = useChannelActionContext();
+  const hasReplies = (message.reply_count ?? 0) > 0;
 
   return (
     <div className="relative flex py-2 pl-5 pr-10 group/message hover:bg-[#22252a]">
@@ -224,33 +223,26 @@ export const ChannelMessage = () => {
                   />
                 </div>
               )}
+              {hasReplies && (
+                <button
+                  onClick={() => openThread(message)}
+                  className="flex items-center gap-1 text-sm text-[#ABABAD] hover:underline mt-1"
+                >
+                  <Threads className="w-4 h-4 fill-[#ABABAD]" />
+                  {message.reply_count} {message.reply_count === 1 ? 'reply' : 'replies'}
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
+
       {/* Message Actions */}
-      <div className="z-20 hidden group-hover/message:inline-flex absolute -top-4 right-[38px]">
-        <div className="flex p-0.5 rounded-md ml-2 bg-[#1A1D21] border border-[#797C814D]">
-          <EmojiPicker
-            ButtonIconComponent={AddReaction}
-            wrapperClassName="group/button relative rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]"
-            buttonClassName="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray"
-            onEmojiSelect={handleReaction}
-          />
-          <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-            <Threads className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
-          </button>
-          <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-            <Share className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
-          </button>
-          <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-            <Bookmark size={18} className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
-          </button>
-          <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-            <MoreVert size={18} className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
-          </button>
-        </div>
-      </div>
+      <MessageActionButtons
+        handleReaction={(emoji: string) => handleReaction({ id: emoji })}
+        openThread={openThread}
+        message={message}
+      />
     </div>
   );
 };

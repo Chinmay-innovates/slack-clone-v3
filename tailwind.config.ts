@@ -28,6 +28,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  variants: {
+    scrollbar: ['rounded'],
+  },
+  plugins: [require('tailwind-scrollbar')],
 };
 export default config;
