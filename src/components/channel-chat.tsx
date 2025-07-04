@@ -11,12 +11,13 @@ import { DateSeparator } from './date-separator';
 import ChannelLoading from './channel-loading';
 import { ChannelMessage } from './channel-message';
 import { InputContainer } from './input-container';
+import { SidebarThread } from './sidebar-thread';
 
 interface ChannelChatProps {
   channel: ChannelType<DefaultStreamChatGenerics>;
 }
 
-export const ChannelChat = ({ channel }: ChannelChatProps) => {
+export function ChannelChat({ channel }: ChannelChatProps) {
   const inputContainer = document.getElementById('message-input');
 
   return (
@@ -26,7 +27,9 @@ export const ChannelChat = ({ channel }: ChannelChatProps) => {
           <MessageList Message={ChannelMessage} />
           {inputContainer && createPortal(<MessageInput Input={InputContainer} />, inputContainer)}
         </Window>
+
+        <SidebarThread />
       </Channel>
     </div>
   );
-};
+}
