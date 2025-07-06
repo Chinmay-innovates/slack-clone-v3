@@ -13,7 +13,7 @@ import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
 import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
 
-import { FIELD_CONFIG, FIELD_VALIDATORS, FieldKey } from './types';
+import { FIELD_CONFIG, FIELD_VALIDATORS, FieldKey } from './constants';
 
 const GetStarted = () => {
   const router = useRouter();
