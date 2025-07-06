@@ -20,7 +20,6 @@ export const Avatar = ({
 
   if (image)
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         style={{ width, height: width, borderRadius }}
         className="overflow-hidden object-cover"

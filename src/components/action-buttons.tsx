@@ -1,8 +1,8 @@
 import { Loader2Icon } from 'lucide-react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { AddReaction, Bookmark, MoreVert, Share, Threads } from './icons';
 import EmojiPicker from './emoji-picker';
-import { StreamMessage } from 'stream-chat-react';
+import { StreamMessage, useChannelActionContext } from 'stream-chat-react';
 
 interface ActionButtonsProps {
   onCancel: () => void;

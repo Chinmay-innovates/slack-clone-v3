@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import {
   MessageText,
@@ -13,11 +13,15 @@ import emojiData from '@emoji-mart/data';
 import { Avatar } from '@/components/ui/avatar';
 import EmojiPicker from '@/components/emoji-picker';
 import { MessageActionButtons } from '@/components/action-buttons';
-import { AddReaction, Download, MoreVert, Share, Threads } from '@/components/icons';
+import { AddReaction, Download, Threads } from '@/components/icons';
+import { Trash2 } from 'lucide-react';
+import { ConfirmDeleteModal } from '@/components/confirm-modal';
+import { useRouter } from 'next/navigation';
 
 export const ChannelMessage = () => {
   const { message } = useMessageContext();
   const { channel } = useChannelStateContext('ChannelMessage');
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { user } = useUser();
 
   const reactionCounts = useMemo(() => {
@@ -52,14 +56,29 @@ export const ChannelMessage = () => {
     minute: '2-digit',
     hour12: true,
   });
-
   const downloadFile = async (url: string) => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = url.split('/').pop()!;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      const filename = url.split('/').pop()?.split('?')[0] || 'downloaded-file';
+
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      URL.revokeObjectURL(blobUrl);
+      link.remove();
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download file.');
+    }
   };
 
   const handleReaction = async (e: { id: string; native?: string }) => {
@@ -88,7 +107,7 @@ export const ChannelMessage = () => {
     if (emoji) return emoji.skins[0].native;
     return null;
   };
-  const { openThread } = useChannelActionContext();
+  const { openThread, deleteMessage } = useChannelActionContext();
   const hasReplies = (message.reply_count ?? 0) > 0;
 
   return (
@@ -98,7 +117,6 @@ export const ChannelMessage = () => {
         <span className="w-fit h-fit inline-flex">
           <button className="w-9 h-9 shrink-0 inline-block">
             <span className="w-full h-full overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={message.user?.image}
                 alt="profile-image"
@@ -167,7 +185,6 @@ export const ChannelMessage = () => {
                       </>
                     )}
                     {attachment.image_url && !attachment.asset_url && (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={attachment.image_url}
                         alt="attachment"
@@ -185,14 +202,13 @@ export const ChannelMessage = () => {
                         >
                           <Download className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
                         </button>
-                        <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-                          <Share className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray" />
-                        </button>
-                        <button className="group/button rounded flex w-8 h-8 items-center justify-center hover:bg-[#D1D2D30b]">
-                          <MoreVert
-                            size={18}
-                            className="fill-[#E8E8E8B3] group-hover/button:fill-channel-gray"
-                          />
+                        <button
+                          onClick={() => {
+                            setConfirmOpen(true);
+                          }}
+                          className="text-xs px-2 py-1 fill-[#E8E8E8B3] text-red-400 rounded hover:bg-[#D1D2D30b]"
+                        >
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </div>
@@ -242,6 +258,14 @@ export const ChannelMessage = () => {
         handleReaction={(emoji: string) => handleReaction({ id: emoji })}
         openThread={openThread}
         message={message}
+      />
+      <ConfirmDeleteModal
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          deleteMessage(message);
+          setConfirmOpen(false);
+        }}
       />
     </div>
   );

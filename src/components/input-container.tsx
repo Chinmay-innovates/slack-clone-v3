@@ -357,7 +357,6 @@ export const InputContainer = () => {
                       <div key={index} className="group relative max-w-[234px]">
                         {file.previewUrl ? (
                           <div className="relative w-[62px] h-[62px] grow shrink-0 cursor-pointer">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={file.previewUrl}
                               alt={`File Preview ${index}`}

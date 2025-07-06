@@ -136,7 +136,6 @@ export const HuddleUI = ({
                 )}
               </div>
               <div className="absolute w-full h-full overflow-hidden rounded-lg">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://a.slack-edge.com/27f87ff/img/huddles/gradient_01.png"
                   alt="huddle-background"
