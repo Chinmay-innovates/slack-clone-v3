@@ -25,27 +25,29 @@ import {
 } from 'stream-chat-react';
 
 import { AppContext } from '../app/client/layout';
-import { Avatar } from './ui/avatar';
-import Bold from './icons/Bold';
-import BulletedList from './icons/BulletedList';
-import Close from './icons/Close';
-import Code from './icons/Code';
-import CodeBlock from './icons/CodeBlock';
-import Emoji from './icons/Emoji';
+import { Avatar } from '@/components/ui/avatar';
+import {
+  Bold,
+  BulletedList,
+  Close,
+  Code,
+  CodeBlock,
+  Emoji,
+  Formatting,
+  Italic,
+  Link,
+  Mentions,
+  Microphone,
+  NumberedList,
+  Plus,
+  Quote,
+  Strikethrough,
+  SlashBox,
+  Video,
+  Send,
+  CaretDown,
+} from '@/components/icons';
 import EmojiPicker from './emoji-picker';
-import Formatting from './icons/Formatting';
-import Italic from './icons/Italic';
-import Link from './icons/Link';
-import Mentions from './icons/Mentions';
-import Microphone from './icons/Microphone';
-import NumberedList from './icons/NumberedList';
-import Plus from './icons/Plus';
-import Quote from './icons/Quote';
-import Strikethrough from './icons/Strikethrough';
-import SlashBox from './icons/SlashBox';
-import Video from './icons/Video';
-import Send from './icons/Send';
-import CaretDown from './icons/CaretDown';
 
 type Descendant = Omit<SlateDescendant, 'children'> & {
   children: (

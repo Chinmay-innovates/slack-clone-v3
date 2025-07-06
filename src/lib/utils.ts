@@ -33,10 +33,18 @@ const isEmail = (str: string): boolean => {
 };
 
 const getOrdinalSuffix = (num: number): string => {
-  const suffixes = ['th', 'st', 'nd', 'rd'];
+  if (num >= 11 && num <= 13) return `${num}th`;
   const lastDigit = num % 10;
-  const suffix = suffixes[lastDigit] || 'th';
-  return num + suffix;
+  switch (lastDigit) {
+    case 1:
+      return `${num}st`;
+    case 2:
+      return `${num}nd`;
+    case 3:
+      return `${num}rd`;
+    default:
+      return `${num}th`;
+  }
 };
 
 export { isUrl, isEmail, getOrdinalSuffix, pattern };

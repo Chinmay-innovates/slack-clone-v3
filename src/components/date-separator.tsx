@@ -22,11 +22,10 @@ export const DateSeparator = ({ date }: DateSeparatorProps) => {
       const options: Intl.DateTimeFormatOptions = {
         weekday: 'long',
         month: 'long',
-        day: 'numeric',
       };
-      const day = date.getDate();
-      const suffix = getOrdinalSuffix(day);
-      return `${date.toLocaleDateString('en-US', options)}${suffix}`;
+      const formatted = date.toLocaleDateString('en-US', options);
+      const dayWithSuffix = getOrdinalSuffix(date.getDate());
+      return `${formatted} ${dayWithSuffix}`;
     }
   }
 
