@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AlertCircle, Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+
 import { isUrl, pattern } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
@@ -10,17 +12,8 @@ import { RailButton } from '@/components/rail-button';
 import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
 import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
-import { AlertCircle, Check } from 'lucide-react';
 
-const FIELD_VALIDATORS = {
-  workspaceName: (val: string) =>
-    val.trim().length < 2 ? 'Workspace name must be at least 2 characters' : '',
-  channelName: (val: string) => (val.trim().length < 1 ? 'Channel name is required' : ''),
-  imageUrl: (val: string) =>
-    val && (!isUrl(val) || !RegExp(pattern).test(val)) ? 'Please enter a valid image URL' : '',
-} as const;
-
-type FieldKey = keyof typeof FIELD_VALIDATORS;
+import { FIELD_CONFIG, FIELD_VALIDATORS, FieldKey } from './types';
 
 const GetStarted = () => {
   const router = useRouter();
@@ -50,9 +43,6 @@ const GetStarted = () => {
   };
 
   const handleBlur = (name: FieldKey) => setTouched((prev) => ({ ...prev, [name]: true }));
-
-  const getStatus = (field: FieldKey) =>
-    touched[field] ? (errors[field] ? 'error' : 'success') : null;
 
   const allValid =
     fields.workspaceName.trim().length >= 2 &&
@@ -149,39 +139,17 @@ const GetStarted = () => {
               </header>
 
               <form onSubmit={onSubmit} className="space-y-6">
-                {(['workspaceName', 'imageUrl', 'channelName'] as FieldKey[]).map((key) => (
+                {(Object.keys(FIELD_CONFIG) as FieldKey[]).map((key) => (
                   <div key={key} className="relative">
                     <TextField
-                      label={
-                        key === 'imageUrl' ? (
-                          <span>
-                            Workspace image&nbsp;
-                            <span className="text-sm text-[#6B7280]">(optional)</span>
-                          </span>
-                        ) : (
-                          `${key === 'workspaceName' ? 'Workspace' : 'Channel'} name`
-                        )
-                      }
+                      label={FIELD_CONFIG[key].label}
                       name={key}
-                      type={key === 'imageUrl' ? 'url' : 'text'}
+                      type={FIELD_CONFIG[key].type}
                       value={fields[key]}
                       onChange={(e) => handleChange(key, e.target.value)}
                       onBlur={() => handleBlur(key)}
-                      placeholder={
-                        key === 'workspaceName'
-                          ? 'e.g. Acme Corp'
-                          : key === 'channelName'
-                          ? 'general'
-                          : 'https://example.com/logo.png'
-                      }
-                      required={key !== 'imageUrl'}
-                      className={
-                        getStatus(key) === 'error'
-                          ? 'border-red-500'
-                          : getStatus(key) === 'success'
-                          ? 'border-green-500'
-                          : ''
-                      }
+                      placeholder={FIELD_CONFIG[key].placeholder}
+                      required={FIELD_CONFIG[key].required}
                     />
                     {renderValidation(
                       key,
@@ -199,7 +167,7 @@ const GetStarted = () => {
                     placeholder="Enter email addresses and press Enter"
                   />
                   <p className="text-sm text-[#6B7280]">
-                    Add email addresses. They'll get an invite.
+                    Add email addresses. They&apos;ll get an invite.
                   </p>
                 </div>
 
