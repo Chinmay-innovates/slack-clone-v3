@@ -16,7 +16,6 @@ import { MessageActionButtons } from '@/components/action-buttons';
 import { AddReaction, Download, Threads } from '@/components/icons';
 import { Trash2 } from 'lucide-react';
 import { ConfirmDeleteModal } from '@/components/confirm-modal';
-import { useRouter } from 'next/navigation';
 import { toast_error, toast_success } from '@/lib/toast';
 
 export const ChannelMessage = () => {

@@ -1,5 +1,5 @@
 import { Modal } from '@/components/ui/modal';
-import { Trash2, AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 interface ConfirmDeleteModalProps {
   open: boolean;
