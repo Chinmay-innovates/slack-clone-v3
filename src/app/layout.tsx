@@ -3,6 +3,7 @@ import '@stream-io/video-react-sdk/dist/css/styles.css';
 import 'stream-chat-react/dist/css/v2/index.css';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Slack Clone',
@@ -34,7 +35,20 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="text-white antialiased">{children}</body>
+        <body className="text-white antialiased">
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              success: {
+                duration: 4000,
+              },
+              error: {
+                duration: 5000,
+              },
+            }}
+          />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

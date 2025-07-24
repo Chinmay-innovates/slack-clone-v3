@@ -26,6 +26,7 @@
     "prisma": "^6.10.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.5.2",
     "slate": "^0.117.2",
     "slate-history": "^0.113.1",
     "slate-react": "^0.117.3",

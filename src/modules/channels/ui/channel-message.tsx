@@ -17,6 +17,7 @@ import { AddReaction, Download, Threads } from '@/components/icons';
 import { Trash2 } from 'lucide-react';
 import { ConfirmDeleteModal } from '@/components/confirm-modal';
 import { useRouter } from 'next/navigation';
+import { toast_error, toast_success } from '@/lib/toast';
 
 export const ChannelMessage = () => {
   const { message } = useMessageContext();
@@ -75,9 +76,13 @@ export const ChannelMessage = () => {
       // Clean up
       URL.revokeObjectURL(blobUrl);
       link.remove();
+
+      toast_success('Download completed', `${filename} has been downloaded.`, {
+        position: 'bottom-right',
+      });
     } catch (error) {
       console.error('Download failed:', error);
-      alert('Failed to download file.');
+      toast_error('Download failed', 'Unable to download the file. Please try again.');
     }
   };
 

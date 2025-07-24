@@ -14,6 +14,7 @@ import { TextField } from '@/components/ui/text-field';
 import { Tags } from '@/components/ui/tags';
 
 import { FIELD_CONFIG, FIELD_VALIDATORS, FieldKey } from './constants';
+import { toast_error, toast_success } from '@/lib/toast';
 
 const GetStarted = () => {
   const router = useRouter();
@@ -68,11 +69,16 @@ const GetStarted = () => {
         body: JSON.stringify({ ...fields, channelName: fields.channelName.trim(), emails }),
       });
       const result = await res.json();
-      if (res.ok) router.push(`/client/${result.workspace.id}/${result.channel.id}`);
-      else alert(`Error: ${result.error}`);
+      if (res.ok) {
+        router.push(`/client/${result.workspace.id}/${result.channel.id}`);
+        toast_success('Workspace created!', 'Your workspace and channel were created.');
+      } else {
+        console.log(`Error: ${result.error}`);
+        toast_error('Creation failed', result.error || 'Something went wrong. Please try again.');
+      }
     } catch (err) {
       console.error(err);
-      alert('An unexpected error occurred.');
+      toast_error('Unexpected Error', 'Something broke. Please try again.');
     } finally {
       setLoading(false);
     }
