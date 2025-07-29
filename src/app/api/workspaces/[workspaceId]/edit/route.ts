@@ -1,6 +1,8 @@
-import { NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+export const runtime = 'nodejs';
+
 import prisma from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 type Params = {
   params: {

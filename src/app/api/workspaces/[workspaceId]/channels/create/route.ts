@@ -1,8 +1,10 @@
-import { NextResponse } from 'next/server';
-import { auth, currentUser } from '@clerk/nextjs/server';
+export const runtime = 'nodejs';
 
-import { generateChannelId } from '@/lib/utils';
+import { auth, currentUser } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
+
 import prisma from '@/lib/prisma';
+import { generateChannelId } from '@/lib/utils';
 
 export async function POST(
   request: Request,

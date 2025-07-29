@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
+export const runtime = 'nodejs';
+
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
 import { generateChannelId, generateToken, generateWorkspaceId, isEmail } from '@/lib/utils';

@@ -1,8 +1,10 @@
-import { Webhook } from 'svix';
-import { headers } from 'next/headers';
+export const runtime = 'nodejs';
+
+import prisma from '@/lib/prisma';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { StreamClient } from '@stream-io/node-sdk';
-import prisma from '@/lib/prisma';
+import { headers } from 'next/headers';
+import { Webhook } from 'svix';
 
 const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
 const SECRET = process.env.STREAM_API_SECRET!;
