@@ -1,17 +1,17 @@
 'use client';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { ChannelList } from 'stream-chat-react';
 import clsx from 'clsx';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ChannelList, useChatContext } from 'stream-chat-react';
 
 import { AppContext } from '@/app/client/layout';
 
 import { ArrowDropdown, CaretDown, Compose, Plus, Refine, Send, Threads } from '@/components/icons';
 
 import { IconButton } from '@/components/ui/icon-button';
-import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
-import { ChannelPreview } from '@/modules/channels/ui/channel-preview';
 import { AddChannelModal } from '@/modules/channels/ui/add-channel-modal';
+import { ChannelPreview } from '@/modules/channels/ui/channel-preview';
+import { SidebarButton } from '@/modules/sidebar/ui/sibebar-button';
 import { EditWorkspaceModal } from '@/modules/workspace/ui/edit-workspace-modal';
 
 const [minWidth, defaultWidth] = [215, 275];
@@ -23,6 +23,7 @@ type SidebarProps = {
 export const Sidebar = ({ layoutWidth }: SidebarProps) => {
   const { user } = useUser();
   const { loading, workspace } = useContext(AppContext);
+  const { client } = useChatContext();
 
   const [width, setWidth] = useState<number>(() => {
     const savedWidth =
@@ -91,6 +92,13 @@ export const Sidebar = ({ layoutWidth }: SidebarProps) => {
       localStorage.setItem('sidebarWidth', String(width));
     }
   }, [width, layoutWidth, maxWidth]);
+
+  useEffect(() => {
+    if (!workspace?.id || !client) return;
+
+    // Force refresh the list of channels from Stream
+    client.queryChannels({ workspaceId: workspace.id });
+  }, [workspace?.channels.length]);
 
   const openCreateChannelModal = () => {
     setIsModalOpen(true);

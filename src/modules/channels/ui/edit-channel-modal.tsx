@@ -1,12 +1,12 @@
+import { AlertCircle, CheckCircle2, FileText, Hash } from 'lucide-react';
 import { FormEvent, useContext, useMemo, useState } from 'react';
-import { Hash, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 
-import { Channel } from '@/generated/prisma';
 import { AppContext } from '@/app/client/layout';
+import { Channel } from '@/generated/prisma';
 
+import { FormActionButtons } from '@/components/action-buttons';
 import { Modal } from '@/components/ui/modal';
 import { TextField } from '@/components/ui/text-field';
-import { FormActionButtons } from '@/components/action-buttons';
 
 interface EditChannelModalProps {
   open: boolean;
@@ -22,16 +22,14 @@ export const EditChannelModal = ({ open, onClose, channel }: EditChannelModalPro
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const channelNameRegex = useMemo(() => {
-    const otherNames = workspace.channels.filter((c) => c.id !== channel.id).map((c) => c.name);
-    return `^(?!${otherNames.join('|')}).+$`;
-  }, [workspace.channels, channel.id]);
-
   const isChannelNameTaken = useMemo(() => {
-    return workspace.channels.some(
-      (c) => c.id !== channel.id && c.name.toLowerCase() === channelName.toLowerCase(),
-    );
-  }, [workspace.channels, channelName, channel.id]);
+    const trimmed = channelName.trim().toLowerCase();
+    const original = channel.name.trim().toLowerCase();
+
+    if (trimmed === original) return false;
+
+    return workspace.channels.some((c) => c.id !== channel.id && c.name.toLowerCase() === trimmed);
+  }, [workspace.channels, channelName, channel.id, channel.name]);
 
   const isChannelNameValid = useMemo(() => {
     return channelName.length >= 1 && channelName.length <= 80 && !isChannelNameTaken;
@@ -154,7 +152,6 @@ export const EditChannelModal = ({ open, onClose, channel }: EditChannelModalPro
                 placeholder="e.g. plan-budget"
                 value={channelName}
                 onChange={(e) => setChannelName(e.target.value.toLowerCase())}
-                pattern={channelNameRegex}
                 title="That name is already taken by another channel"
                 maxLength={80}
                 required
